@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="NoticeServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="notice-api.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.rsurpport.notice.NoticeServiceApplication" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
