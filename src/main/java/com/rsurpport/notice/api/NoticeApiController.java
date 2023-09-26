@@ -4,17 +4,28 @@ package com.rsurpport.notice.api;
 import com.rsurpport.notice.common.enums.ErrorCode;
 import com.rsurpport.notice.common.exception.CommonException;
 import com.rsurpport.notice.dto.NoticeDto;
+import com.rsurpport.notice.entity.Attachments;
 import com.rsurpport.notice.entity.Notice;
 import com.rsurpport.notice.service.AttachmentsService;
 import com.rsurpport.notice.service.NoticeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 공지사항 API
@@ -120,5 +131,39 @@ public class NoticeApiController {
         logger.debug("removeNotice start , RequestHeader writer : " + writer);
         attachmentsService.deleteAttachmentsByNoticeId(id);
         noticeService.deleteNotice(id, writer);
+    }
+
+
+    @Value("${file.upload.dir}")
+    private final String FILE_DIRECTORY = "/path/to/your/files";
+
+    /**
+     * 파일 다운로드
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/notices/{attachmentsId}/download")
+    public ResponseEntity<Resource> downloadFile(@PathVariable("attachmentsId") long id) throws Exception {
+
+        Optional<Attachments> attachments = attachmentsService.getAttachments(id);
+
+        // 파일이 없을때
+        if (attachments.isEmpty()) {
+            throw new CommonException(ErrorCode.API_ERR_FILE_DOWNLOAD);
+        }
+
+        Path path = Paths.get(attachments.get().getFileUrl());
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists() || !resource.isReadable()) {
+            throw new Exception("Could not read file: " + attachments.get().getFileName());
+        }
+        String contentType = Files.probeContentType(path);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName().toString());
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 }

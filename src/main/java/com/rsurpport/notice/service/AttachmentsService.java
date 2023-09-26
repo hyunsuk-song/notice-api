@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -31,7 +32,7 @@ public class AttachmentsService {
     private AttachmentsRepository attachmentsRepository;
 
     @Value("${file.upload.dir}")
-    private String uploadDir;
+    private String FILE_DIRECTORY;
 
 
     /**
@@ -75,6 +76,16 @@ public class AttachmentsService {
     }
 
     /**
+     * 공지사항에 첨부된 파일 정보
+     *
+     * @param id
+     * @return
+     */
+    public Optional<Attachments> getAttachments(Long id) {
+       return attachmentsRepository.findById(id);
+    }
+
+    /**
      * 파일 업로드
      * @param noticeId
      * @param files
@@ -82,7 +93,7 @@ public class AttachmentsService {
     public void uploadFiles(Long noticeId, List<MultipartFile> files) {
         // 파일 업로드 경로 생성
         // 공지 마다 폴더를 따로 생성
-        String noticeUploadDir = uploadDir + File.separator + "notice_" + noticeId;
+        String noticeUploadDir = FILE_DIRECTORY + File.separator + "notice_" + noticeId;
         File noticeDir = new File(noticeUploadDir);
         if (!noticeDir.exists()) {
             noticeDir.mkdirs();

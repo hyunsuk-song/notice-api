@@ -23,14 +23,14 @@ public class ResponseWrap {
         message = "Success";
     }
 
-    public ResponseWrap(CommonException msgException) {
+    public ResponseWrap(CommonException commonException) {
         status = 400;
-        code = msgException.getErrorCode().getCode();
-        message = msgException.getMessage();
+        code = commonException.getErrorCode().getCode();
+        message = commonException.getMessage();
     }
 
     public ResponseWrap(Exception exception) {
         this.status = 500;
-        message = exception.getMessage();
+        message = "오류가 발생하였습니다. 관리자에게 문의하세요.";
     }
 }

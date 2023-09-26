@@ -16,6 +16,7 @@ public enum ErrorCode {
     API_ERR_NOTICE_NOT_EXISTS( "4004", "존재하지 않는 공지사항 입니다."),
 
     API_ERR_FILE( "4010", "파일 업로드 중 오류가 발생하였습니다."),
+    API_ERR_FILE_DOWNLOAD( "4011", "존재 하지 않는 파일입니다."),
     ;
 
     private final String code;

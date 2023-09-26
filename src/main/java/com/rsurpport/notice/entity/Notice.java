@@ -39,7 +39,7 @@ public class Notice {
     private LocalDateTime endDate;
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9")
-    private LocalDateTime createdAt;
+    private LocalDateTime regDate;
     private int viewCount;
     @NotNull
     private String writer;

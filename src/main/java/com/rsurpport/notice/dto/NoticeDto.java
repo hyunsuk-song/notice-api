@@ -29,9 +29,6 @@ public class NoticeDto {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9")
     private LocalDateTime endDate;
-    @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9")
-    private LocalDateTime createdAt;
     private int viewCount;
     @NotNull
     private String writer;

@@ -75,8 +75,6 @@ public class NoticeService {
                 .endDate(noticeDto.getEndDate())
                 .writer(noticeDto.getWriter()).build();
 
-        log.info("notice : ", notice.toString());
-
         return noticeRepository.save(notice);
     }
     /**
@@ -85,7 +83,7 @@ public class NoticeService {
      */
     @Transactional
     public int updateNotice(NoticeDto noticeDto){
-        log.info("noticeDot id = {}" , noticeDto.toString());
+        log.debug("noticeDto : {} ", noticeDto);
         Notice notice = this.getNotice(noticeDto.getId()).orElseThrow(() -> new CommonException(ErrorCode.API_ERR_NOTICE_NOT_EXISTS));
 
         // 기존 작성자와 수정하려는 작성자가 다를경우
@@ -97,9 +95,6 @@ public class NoticeService {
         notice.setContent(noticeDto.getContent());
         notice.setStartDate(noticeDto.getStartDate());
         notice.setEndDate(noticeDto.getEndDate());
-       // notice.setWriter(noticeDto.getWriter());
-
-        log.info("\n notice : {} \n", notice);
 
         return  noticeRepository.updateNoticeById(noticeDto.getTitle(), noticeDto.getContent(),noticeDto.getStartDate(),noticeDto.getEndDate(),noticeDto.getId());
     }

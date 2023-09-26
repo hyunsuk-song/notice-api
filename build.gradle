@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    compileOnly 'com.h2database:h2'
+    implementation 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
