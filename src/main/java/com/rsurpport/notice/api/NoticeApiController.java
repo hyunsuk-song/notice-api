@@ -72,9 +72,11 @@ public class NoticeApiController {
     @PostMapping(value = "/notices",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public void registerNotice(@RequestPart NoticeDto noticeDto,
                                @RequestPart(value = "multipartFile", required = false) List<MultipartFile> multipartFileList,
-                               @RequestHeader("writer") String writer) {
+                               @RequestHeader(value = "writer", required = false) String writer) {
         logger.debug("registerNotice start");
 
+        // 작성자는 헤더값에서 가져온다.
+        noticeDto.setWriter(writer);
         // 필수값 validation 체크
         validateNoticeParameters(noticeDto);
 
@@ -83,8 +85,6 @@ public class NoticeApiController {
             throw new CommonException(ErrorCode.API_ERR_NOTICE_DATE_VALIDATION);
         }
 
-        // 작성자는 헤더값에서 가져온다.
-        noticeDto.setWriter(writer);
         Notice notice =  noticeService.registerNotice(noticeDto);
 
         if (multipartFileList != null && !multipartFileList.isEmpty()) {
@@ -102,10 +102,13 @@ public class NoticeApiController {
     public void updateNotice(@PathVariable("id") long id,
                              @RequestPart NoticeDto noticeDto,
                              @RequestPart(value = "multipartFile", required = false) List<MultipartFile> multipartFileList,
-                             @RequestHeader("writer") String writer) {
+                             @RequestHeader(value = "writer", required = false) String writer) {
 
         logger.debug("updateNotice start , RequestHeader writer : " + writer);
 
+        // 작성자는 헤더값에서 가져온다.
+        noticeDto.setWriter(writer);
+        noticeDto.setId(id);
         // 필수값 validation 체크
         validateNoticeParameters(noticeDto);
 
@@ -114,9 +117,6 @@ public class NoticeApiController {
             throw new CommonException(ErrorCode.API_ERR_NOTICE_DATE_VALIDATION);
         }
 
-        // 작성자는 헤더값에서 가져온다.
-        noticeDto.setWriter(writer);
-        noticeDto.setId(id);
         noticeService.updateNotice(noticeDto);
 
         // 파일이 있을때만

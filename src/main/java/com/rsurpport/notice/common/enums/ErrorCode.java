@@ -15,7 +15,7 @@ public enum ErrorCode {
     API_ERR_NOTICE_ID_VALIDATION( "4003", "id가 없습니다."),
     API_ERR_NOTICE_NOT_EXISTS( "4004", "존재하지 않는 공지사항 입니다."),
 
-    API_ERR_NOTICE_NULL_PARAMS( "4005", "필수 parameter에 null값이 존재합니다."),
+    API_ERR_NOTICE_NULL_PARAMS( "4005", "필수 parameter값이 없습니다."),
 
     API_ERR_FILE( "4010", "파일 업로드 중 오류가 발생하였습니다."),
     API_ERR_FILE_DOWNLOAD( "4011", "존재 하지 않는 파일입니다."),

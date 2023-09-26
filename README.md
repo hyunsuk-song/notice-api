@@ -54,13 +54,14 @@
 | 공지사항 삭제 | DELETE | /api/notices/{id} | 특정 공지사항을 삭제합니다. | id: 삭제할 공지사항의 id                                                                                                                                                                                                              |
 
 ### 공지사항 에러 코드 명세
-| Name                              | Code  | Description                         |
-|-----------------------------------|-------|-------------------------------------|
-| API_ERR_NOTICE_WRITER_VALIDATION  | 4001  | 작성자가 다릅니다.                  |
-| API_ERR_NOTICE_DATE_VALIDATION    | 4002  | 시작일보다 종료일의 날짜가 더 빠릅니다.|
-| API_ERR_NOTICE_ID_VALIDATION      | 4003  | id가 없습니다.                      |
-| API_ERR_NOTICE_NOT_EXISTS         | 4004  | 존재하지 않는 공지사항 입니다.       |
-| API_ERR_FILE                      | 4010  | 파일 업로드 중 오류가 발생하였습니다.  |
+| Name                              | Code | Description                   |
+|-----------------------------------|------|-------------------------------|
+| API_ERR_NOTICE_WRITER_VALIDATION  | 4001 | 작성자가 다릅니다.                 |
+| API_ERR_NOTICE_DATE_VALIDATION    | 4002 | 시작일보다 종료일의 날짜가 더 빠릅니다. |
+| API_ERR_NOTICE_ID_VALIDATION      | 4003 | id가 없습니다.                   |
+| API_ERR_NOTICE_NOT_EXISTS         | 4004 | 존재하지 않는 공지사항 입니다.        |
+| API_ERR_NOTICE_NULL_PARAMS        | 4005 | 필수 parameter값이 없습니다.       |
+| API_ERR_FILE                      | 4010 | 파일 업로드 중 오류가 발생하였습니다.   |
 
 
 ## 테스트 환경 및 고려사항
