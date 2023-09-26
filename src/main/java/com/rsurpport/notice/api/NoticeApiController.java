@@ -73,8 +73,10 @@ public class NoticeApiController {
     public void registerNotice(@RequestPart NoticeDto noticeDto,
                                @RequestPart(value = "multipartFile", required = false) List<MultipartFile> multipartFileList,
                                @RequestHeader("writer") String writer) {
-
         logger.debug("registerNotice start");
+
+        // 필수값 validation 체크
+        validateNoticeParameters(noticeDto);
 
         // 시작일과 종료일 체크
         if(noticeDto.getStartDate().isAfter(noticeDto.getEndDate())){
@@ -104,6 +106,9 @@ public class NoticeApiController {
 
         logger.debug("updateNotice start , RequestHeader writer : " + writer);
 
+        // 필수값 validation 체크
+        validateNoticeParameters(noticeDto);
+
         // 시작일과 종료일 체크
         if(noticeDto.getStartDate().isAfter(noticeDto.getEndDate())){
             throw new CommonException(ErrorCode.API_ERR_NOTICE_DATE_VALIDATION);
@@ -127,12 +132,28 @@ public class NoticeApiController {
     @DeleteMapping("/notices/{id}")
     public void removeNotice(@PathVariable("id") long id,
                              @RequestHeader("writer") String writer) {
-
         logger.debug("removeNotice start , RequestHeader writer : " + writer);
+
+        // 필수값 validation
+        if(writer == null){
+            throw new CommonException(ErrorCode.API_ERR_NOTICE_NULL_PARAMS);
+        }
+
         attachmentsService.deleteAttachmentsByNoticeId(id);
         noticeService.deleteNotice(id, writer);
     }
 
+    private void validateNoticeParameters(NoticeDto noticeDto) {
+        boolean hasNullFields = noticeDto.getTitle() == null
+                || noticeDto.getContent() == null
+                || noticeDto.getStartDate() == null
+                || noticeDto.getEndDate() == null
+                || noticeDto.getWriter() == null;
+
+        if (hasNullFields) {
+            throw new CommonException(ErrorCode.API_ERR_NOTICE_NULL_PARAMS);
+        }
+    }
 
     @Value("${file.upload.dir}")
     private final String FILE_DIRECTORY = "/path/to/your/files";
